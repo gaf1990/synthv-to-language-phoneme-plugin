@@ -96,6 +96,38 @@ into this:
 
 ![img_3.png](resources/img_3.png)
 
+
+Follows an example log
+
+>[Logger Thu Oct 24 09:30:42 2024] INFO  - OS: Windows
+> 
+>[Logger Thu Oct 24 09:30:43 2024] INFO  - Language: IT
+>
+>[Logger Thu Oct 24 09:30:43 2024] INFO  - Start processing rules
+>
+>[Logger Thu Oct 24 09:30:43 2024] INFO  - Open IPA rule file C:\Users\ferra\OneDrive\Documenti\Dreamtonics\Synthesizer V Studio\scripts\Utilities\languages\IT.dic
+>[Logger Thu Oct 24 09:30:43 2024] INFO  - Open dream rule file C:\Users\ferra\OneDrive\Documenti\Dreamtonics\Synthesizer V Studio\scripts\Utilities\languages\IT-dream.dic
+>
+>[Logger Thu Oct 24 09:30:43 2024] INFO  - End processing rules
+>
+>[Logger Thu Oct 24 09:30:43 2024] INFO  - Start processing notes
+>
+>[Logger Thu Oct 24 09:30:43 2024] INFO  - Lyric dim --> IPA: dim --> Dream: 1: {1: d 2: SPA 3: d } 2: {1: i m 2: CAN 3: im }
+>
+>[Logger Thu Oct 24 09:30:43 2024] INFO  - Lyric mi --> IPA: mi --> Dream: 1: {1: m i 2: CAN 3: mi }
+>
+>[Logger Thu Oct 24 09:30:43 2024] INFO  - Lyric le --> IPA: le --> Dream: 1: {1: l e 2: CAN 3: le }
+>
+>
+>[Logger Thu Oct 24 09:30:43 2024] INFO  - Lyric tue --> IPA: tʊe --> Dream: 1: {1: t 2: SPA 3: t } 2: {1: u e 2: CAN 3: ʊe }
+>
+>[Logger Thu Oct 24 09:30:43 2024] INFO  - Lyric ve --> IPA: ve --> Dream: 1: {1: v 2: ING 3: v } 2: {1: e 2: CAN 3: e }
+>
+>[Logger Thu Oct 24 09:30:43 2024] INFO  - Lyric ri --> IPA: ri --> Dream: 1: {1: r 2: SPA 3: r } 2: {1: i 2: CAN 3: i }
+>
+>[Logger Thu Oct 24 09:30:43 2024] INFO  - Lyric ta --> IPA: ta --> Dream: 1: {1: t 2: SPA 3: t } 2: {1: a 2: CAN 3: a }
+
+
 ## IMPORTANT NOTES
 The script evenly splits all words, processing them character by character, and replaces the lyrics with the necessary phonemes.  
 This requires subsequent work to regroup the syllables where possible and to fix any timing issues.  
