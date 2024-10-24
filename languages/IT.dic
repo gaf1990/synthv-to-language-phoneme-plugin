@@ -1,0 +1,127 @@
+//A_CHIUSA à,à
+	(.-)à(.*),%1ä%2,
+
+//E_APERTA ɛ,e
+
+    (.-)è(.*),%1ɛ%2,
+	(.-)ie(.*),%1iɛ%2,(.-)iett(.*)|(.-)iezz(.*)|biglietto|chierico|gliene|schietto|(.-)esco
+	(.-)e([aeiou])(.*),%1ɛ%2%3,dei|nei|pei|quei
+	(.-)e([bcdfhjkglmnpqrstvwxyz])([aeiou])([aeiou])(.*),%1ɛ%2%3%4%5,fregio|sfregio|(.-)egui|(.-)eguo|(.-)egua
+	(.-)eca(.*),%1ɛca%2,
+	(.-)eco(.*),%1ɛco%2,
+	(.-)eche(.*),%1ɛce%2,
+	(.-)echi(.*),%1ɛchi%2,
+	(.-)eda(.*),%1ɛda%2,cred(.-)|ved(.-)
+	(.-)ede(.*),%1ɛde%2,cred(.-)|ved(.-)|fede
+	(.-)edi(.*),%1ɛdi%2,cred(.-)|ved(.-)
+	(.-)edo(.*),%1ɛdo%2,cred(.-)|ved(.-)
+	(.-)ell(.?),%1ɛll%2,^dell(.?)|^quell(.?)|^ell(.?)|^capell(.?)|^stell(.?)
+	(.-)em(.?),%1ɛm%2,scem(.-)|tem(.-)
+	(.-)eno,%1ɛno,baleno|veleno|meno|seno|nemmeno|terreno|sereno
+	(.-)ena,%1ɛna,altalena|appena|arena|sabbia|avena|balena|catena|cena|maddalena|rena|pena|vena
+	(.-)endere,%1ɛndere,scendere|vendere
+	(.-)endo,%1ɛndo,
+	(.-)enne,%1ɛnne,
+	(.-)ennio,%1ɛnnjo,
+	(.-)ens(.?),%1ɛns%2,
+	(.-)ent(.?),%1ɛnt%2,(.-)ment(.?)|venti
+	(.-)enza,%1ɛnza,
+	(.-)erb(.?),%1ɛrb%2,
+	(.-)ern(.?),%1ɛrn%2,
+	(.-)ers(.?),%1ɛrs%2,
+	(.-)ert(.?),%1ɛrt%2,
+	(.-)erv(.?),%1ɛrv%2,
+	(.-)errim(.?),%1ɛrrim%2,
+	(.-)esim(.?),%1ɛsim%2,
+	(.-)estr(.?),%1ɛstr%2,
+	^er(.?),ɛr%1,
+	^erano,ɛrano,
+	(.-)ett(.?),%1ɛtt%2,
+	(.-)ettero,%1ɛttero,
+
+//O_APERTA ɔ,o
+
+	(.-)uo(.*),%1uɔ%2,(.-)uos(.?)|liquore|languore
+	(.-)ò,%1ɔ,
+	(.-)o([bcdfhjkglmnpqrstvwxyz])([aeɛijouʊ])([aeɛijouʊ])(.*),%1ɔ%2%3%4%5,incrocio
+	(.-)ori(.?),%1ɔri%2,
+	(.-)od(.?),%1ɔd%2,rod(.-)|erod(.-)|corrod(.-)|coda
+	(.-)og(.?),%1ɔg%2,
+	(.-)oide(.?),%1ɔide%2,
+	(.-)ol(.?),%1ɔl%2,solo|volo|col(.-)|scol(.-)|mescol(.-)
+	(.-)os(.?),%1ɔs%2,
+	(.-)ott(.?),%1ɔt%2,
+	(.-)ottol(.?),%1ɔttol%2,
+	(.-)ozz(.?),%1ɔzz%2,gozzo|pozzo|rozzo|singhiozzo|sozzo|mozzo
+	(.-)olgi(.?),%1ɔlgi%2,
+	(.-)orgi(.?),%1ɔrgi%2,
+	(.-)ols(.?),%1ɔls%2,
+	(.-)osso(.?),%1ɔsso%2,
+	(.-)ologo(.?),%1ɔlogo%2,
+	(.-)ogico(.?),%1ɔgico%2,
+	(.-)ografo(.?),%1ɔgrafo%2,
+	(.-)omico(.?),%1ɔmico%2
+
+//I_SEMICO j,i
+
+	(.-)i([aɛeoɔu])(.*),%1j%2%3,
+	(.-)([aɛeoɔu])i([aɛeoɔu])(.*),%1%2j%3%4,
+
+//U_SEMICO ʊ,u
+
+	(.-)u([aɛeoɔi])(.*),%1ʊ%2%3,
+	(.-)([aɛeoɔi])u([aɛeoɔi])(.*),%1%2ʊ%3%4,
+
+//SC_DOLCE ʃ,ʃ
+	(.-)sc([ɛeij])(.*),%1ʃ%2%3,
+
+//S_SONORA z,s
+
+	(.-)s([bcdt])(.*),%1z%2%3,
+	(.-)([aɛeioɔu])s([aɛeioɔu])(.*),%1%2z%3%4,affittasi|disotto|girasole|prosegue|risapere|unisono|preservare|riservare|reggiseno|pluristrato|multistrato|preside|presidio|preservare|presentiment
+
+//Z_SORDA ʦ,ʣ
+
+	(.-)lz(.*),%1lʦ%2,elzeviro|belzebù
+	(.-)z([ij])([aɛeioɔu])(.*),%1ʦ%2%3%4,azienda
+	(.-)([ɛeoɔu])zza(.*),%1%2ʦa%3,brezza
+	(.-)azzare,%1aʦare,
+	(.-)([aeɛ])nz(.?),%1%2nʦ%3,
+	(.-)onzol(.?),%1nʦolo%2,
+
+//Z_SONORA ʣ,ʦ
+	(.-)izzare,%1iʣare,
+	z(.-),ʣ%1,zanna|zazzera|zampa|zoccolo|zucchero|zigano
+	z([aɛeoɔu])([aɛeioɔu])(.*),ʣ%1%2%3,
+	(.-)([aɛeioɔu])z([aɛeioɔu])(.*),%1%2ʣ%3%4,nazismo
+
+//NG_DOLCE ŋ,ŋ
+	(.-)n([gcq])(.*),%1ŋ%2%3,
+
+//G_DOLCE ʤ,g
+	(.-)gg([ɛeij])(.*),%1ʤʤ%2%3,
+	(.-)g([ɛeij])(.*),%1ʤ%2%3,
+
+//GL_DOLCE ʎ,ʎ
+	(.-)gl([ɛeij])(.*),%1ʎ%2%3,
+
+//GN_DOLCE ɲ,ɲ
+	(.-)gn(.*),%1ɲ%2,
+
+//C_DOLCE ʧ,ʧ
+	(.-)cc([ij])(.*),%1ʧʧ%3,
+	(.-)cc([ɛe])(.*),%1ʧʧ%2%3,
+	(.-)c([ij])(.*),%1ʧ%3,
+	(.-)c([ɛe])(.*),%1ʧ%2%3,
+	(.-)cj(.*),%1ʧ%2,
+
+//C_DURA k,k
+	(.-)ch([ɛei])(.*),%1k%2%3,
+	(.-)cc([aoɔu])(.*),%1kk%2%3,
+	(.-)c([aoɔu])(.*),%1k%2%3,
+
+//PLUS +,+
+	\\+,\\+,,
+
+//MINUS -,-
+	\\-,\\-,,
