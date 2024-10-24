@@ -71,9 +71,6 @@ function main()
                             log("Cannot find " .. phonemes .. " in .dic file. Set JAP as default")
                             dreamLanguage = "JAP"
                         end
-                        local originalLyric = entry[3]
-                        log("Apply " .. phonemes .. " to " .. originalLyric .. " with " .. dreamLanguage)
-
                         local newNote = SV:create("Note")
                         newNote:setPitch(pitchPerSubNote)
                         newNote:setLanguageOverride(getLanguageOverride(language))
