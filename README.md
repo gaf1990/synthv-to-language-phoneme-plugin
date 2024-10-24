@@ -4,11 +4,12 @@
 ## INTRODUCTION
 
 Hello everyone, I have developed this script to allow customization of the current dictionary system, which has limitations when handling multilingual words.  
-The script requires two supporting files for each language:
+The script requires three supporting files for each language:
 - `{language}.dic`
 - `{language}-dream.dic`
+- `{language}-syl.dic`
 
-In this case, I have created files for the Italian language, namely `IT.dic` and `IT-dream.dic`.
+In this case, I have created files for the Italian language, namely `IT.dic`,`IT-dream.dic` and `IT-syl.dic`
 
 ## INSTALLATION
 
@@ -19,6 +20,16 @@ NOTES: Check the script directory inside the script.
 Current is set with "Documenti" name, if it's not working change it accordingly your path.
 
 ## HOW IT WORKS
+
+### IT-syl.DIC
+This file contains the "syllabion rules" for extracting syllabes from words.
+The structure is divided as follows:
+
+> {RULE PLACEHOLDER},{REGEX SYLLABATION} {NUMBER OF SYLLABES}
+
+Below is an example for the Italian "RL" rule
+
+> RLB ^[bʧcdfptv][rl][aeɛioɔuèéòäùʊ][bʧcdfhjkʤgʎlmnɲŋpqrsʃtvwʊxyzʦʣ][aeɛioɔuèéòäùʊ](.*) 3
 
 ### IT.DIC
 This file contains the "conversion rules" for transforming words into IPA (International Phonetic Alphabet).  
@@ -61,6 +72,8 @@ In the third case, we are stating:
 * Convert it to "ɔ" while preserving the other letters:
     * `%1ɔ%2%3%4%5`
 * Do not apply this rule if the word is "incrocio."
+
+
 
 ### IT-Dream.DIC
 This file contains the "conversion rules" for transforming words from IPA to Synthesizer V phonemes.  
