@@ -79,19 +79,19 @@ In this case, the phoneme `ʧ` can be converted:
 The script should be used by:
 * Selecting a group of notes
 
-![img_1.png](img_1.png)
+![img_1.png](resources/img_1.png)
 
 * Choosing the conversion language (currently only Italian is supported)
 
-![img_2.png](img_2.png)
+![img_2.png](resources/img_2.png)
 
 As you can see, the script will transform this group of notes:
 
-![img.png](img.png)
+![img.png](resources/img.png)
 
 into this:
 
-![img_3.png](img_3.png)
+![img_3.png](resources/img_3.png)
 
 ## IMPORTANT NOTES
 The script evenly splits all words, processing them character by character, and replaces the lyrics with the necessary phonemes.  
