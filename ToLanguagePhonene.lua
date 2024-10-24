@@ -13,7 +13,7 @@ end
 function main()
     local OS = determine_OS()
     local script_folder_name = determine_scriptFolder(OS)
-    fileName = script_folder_name .. "\\" .. "it_morpher.log"
+    fileName = script_folder_name .. "\\" .. "to-language-phonemes.log"
     log ("OS: " .. OS)
 
     local langCodes = { "IT" }
