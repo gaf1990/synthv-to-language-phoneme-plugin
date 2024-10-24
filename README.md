@@ -15,6 +15,9 @@ In this case, I have created files for the Italian language, namely `IT.dic` and
 Copy .lua script inside script folders.
 Create a subdirectory "languages" and put inside it the .dic files.
 
+NOTES: Check the script directory inside the script.
+Current is set with "Documenti" name, if it's not working change it accordingly your path.
+
 ## HOW IT WORKS
 
 ### IT.DIC
