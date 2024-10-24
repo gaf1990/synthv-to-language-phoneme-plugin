@@ -66,12 +66,13 @@ function main()
                     group:removeNote(index)
                     for _, entry in ipairs(dreamMap) do
                         local phonemes = entry[1]
-                        local language = entry[2]
-                        if language == nil then
-                            language = "UNK"
+                        local dreamLanguage = entry[2]
+                        if dreamLanguage == nil then
+                            log("Cannot find " .. phonemes .. " in .dic file. Set JAP as default")
+                            dreamLanguage = "JAP"
                         end
                         local originalLyric = entry[3]
-                        log("Apply " .. phonemes .. " to " .. originalLyric .. " with " .. language)
+                        log("Apply " .. phonemes .. " to " .. originalLyric .. " with " .. dreamLanguage)
 
                         local newNote = SV:create("Note")
                         newNote:setPitch(pitchPerSubNote)
