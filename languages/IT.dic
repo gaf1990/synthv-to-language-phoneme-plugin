@@ -41,7 +41,7 @@
 
 //O_APERTA ɔ,o
 
-	(.-)uo(.*),%1uɔ%2,(.-)uos(.?)|liquore|languore
+	(.-)uo(.*),%1uɔ%2,liquore|languore
 	(.-)ò,%1ɔ,
 	(.-)o([bcdfhjkglmnpqrstvwxyz])([aeɛijouʊ])([aeɛijouʊ])(.*),%1ɔ%2%3%4%5,incrocio
 	(.-)ori(.?),%1ɔri%2,
