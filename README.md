@@ -112,33 +112,90 @@ into this:
 
 Follows an example log
 
->[Logger Thu Oct 24 09:30:42 2024] INFO  - OS: Windows
-> 
->[Logger Thu Oct 24 09:30:43 2024] INFO  - Language: IT
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - OS: Windows
 >
->[Logger Thu Oct 24 09:30:43 2024] INFO  - Start processing rules
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Language: IT
 >
->[Logger Thu Oct 24 09:30:43 2024] INFO  - Open IPA rule file C:\Users\ferra\OneDrive\Documenti\Dreamtonics\Synthesizer V Studio\scripts\Utilities\languages\IT.dic
->[Logger Thu Oct 24 09:30:43 2024] INFO  - Open dream rule file C:\Users\ferra\OneDrive\Documenti\Dreamtonics\Synthesizer V Studio\scripts\Utilities\languages\IT-dream.dic
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Start processing rules
 >
->[Logger Thu Oct 24 09:30:43 2024] INFO  - End processing rules
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Open Sillabe rule file C:\Users\ferra\OneDrive\Documenti\Dreamtonics\Synthesizer V Studio\scripts\Utilities\languages\IT-syl.dic
 >
->[Logger Thu Oct 24 09:30:43 2024] INFO  - Start processing notes
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Open IPA rule file C:\Users\ferra\OneDrive\Documenti\Dreamtonics\Synthesizer V Studio\scripts\Utilities\languages\IT.dic
 >
->[Logger Thu Oct 24 09:30:43 2024] INFO  - Lyric dim --> IPA: dim --> Dream: 1: {1: d 2: SPA 3: d } 2: {1: i m 2: CAN 3: im }
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Open dream rule file C:\Users\ferra\OneDrive\Documenti\Dreamtonics\Synthesizer V Studio\scripts\Utilities\languages\IT-dream.dic
 >
->[Logger Thu Oct 24 09:30:43 2024] INFO  - Lyric mi --> IPA: mi --> Dream: 1: {1: m i 2: CAN 3: mi }
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - End processing rules
 >
->[Logger Thu Oct 24 09:30:43 2024] INFO  - Lyric le --> IPA: le --> Dream: 1: {1: l e 2: CAN 3: le }
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Start processing notes
 >
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process note at 1
 >
->[Logger Thu Oct 24 09:30:43 2024] INFO  - Lyric tue --> IPA: tʊe --> Dream: 1: {1: t 2: SPA 3: t } 2: {1: u e 2: CAN 3: ʊe }
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process word "amore" at 1
 >
->[Logger Thu Oct 24 09:30:43 2024] INFO  - Lyric ve --> IPA: ve --> Dream: 1: {1: v 2: ING 3: v } 2: {1: e 2: CAN 3: e }
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Current word notes number are 4
 >
->[Logger Thu Oct 24 09:30:43 2024] INFO  - Lyric ri --> IPA: ri --> Dream: 1: {1: r 2: SPA 3: r } 2: {1: i 2: CAN 3: i }
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Check sillabe 1 "a" for lyric 1 "amore"
 >
->[Logger Thu Oct 24 09:30:43 2024] INFO  - Lyric ta --> IPA: ta --> Dream: 1: {1: t 2: SPA 3: t } 2: {1: a 2: CAN 3: a }
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process sillabe "a" --> IPA: "a" --> Dream: 1: {1: a 2: CAN 3: a }
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Check sillabe 2 "mo" for lyric 2 "+"
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process sillabe "mo" --> IPA: "mo" --> Dream: 1: {1: m o 2: CAN 3: mo }
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Check sillabe 3 "re" for lyric 3 "+"
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process sillabe "re" --> IPA: "re" --> Dream: 1: {1: r 2: SPA 3: r } 2: {1: e 2: CAN 3: e }
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process note at 5
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process word "ti" at 5
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Current word notes number are 1
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process single word "ti" --> IPA: "ti" --> Dream: 1: {1: t 2: SPA 3: t } 2: {1: i 2: CAN 3: i }
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process note at 6
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process word "voglio" at 6
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Current word notes number are 1
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process single word "voglio" --> IPA: "vɔʎjo" --> Dream: 1: {1: v 2: ING 3: v } 2: {1: O 2: CAN 3: ɔ } 3: {1: y 2: SPA 3: ʎ } 4: {1: j o 2: CAN 3: jo }
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process note at 7
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process word "baciare" at 7
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Current word notes number are 5
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Check sillabe 1 "ba" for lyric 1 "baciare"
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process sillabe "ba" --> IPA: "ba" --> Dream: 1: {1: b 2: SPA 3: b } 2: {1: a 2: CAN 3: a }
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Check sillabe 2 "cia" for lyric 2 "+"
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process sillabe "cia" --> IPA: "ʧa" --> Dream: 1: {1: ch 2: SPA 3: ʧ } 2: {1: a 2: CAN 3: a }
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Check sillabe 3 "re" for lyric 3 "+"
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process sillabe "re" --> IPA: "re" --> Dream: 1: {1: r 2: SPA 3: r } 2: {1: e 2: CAN 3: e }
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process note at 11
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process note at 12
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process word "tutta" at 12
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Current word notes number are 2
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Check sillabe 1 "tut" for lyric 1 "tutta"
+>
+>[Logger Thu Oct 24 14:56:55 2024] INFO  - Process sillabe "tut" --> IPA: "tut" --> Dream: 1: {1: t 2: SPA 3: t } 2: {1: u 2: CAN 3: u } 3: {1: t 2: SPA 3: t }
+>
+>[Logger Thu Oct 24 14:56:56 2024] INFO  - Check sillabe 2 "ta" for lyric 2 "+"
+>
+>[Logger Thu Oct 24 14:56:56 2024] INFO  - Process sillabe "ta" --> IPA: "ta" --> Dream: 1: {1: t 2: SPA 3: t } 2: {1: a 2: CAN 3: a }
+
 
 
 ## IMPORTANT NOTES
