@@ -6,7 +6,7 @@ function getClientInfo()
         category = "Phoneme Converters",
         author = "Giuseppe Andrea Ferraro",
         versionNumber = 1,
-        minEditorVersion = 0
+        minEditorVersion = 1
     }
 end
 
@@ -55,6 +55,7 @@ function main()
             log("Process note at " .. realNoteCounter)
             local originalNote = selectedNotes[realNoteCounter]
             local lyric = originalNote:getLyrics()
+            lyric = string.lower(lyric)
             local wordNotes = {}
 
             if lyric ~= " " and lyric ~= "-" and lyric ~= "+" then
