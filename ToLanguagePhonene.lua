@@ -5,7 +5,7 @@ function getClientInfo()
         name = "To Language Phonemes",
         category = "Phoneme Converters",
         author = "Giuseppe Andrea Ferraro",
-        versionNumber = 0,
+        versionNumber = 1,
         minEditorVersion = 0
     }
 end
@@ -14,7 +14,7 @@ function main()
     local OS = determine_OS()
     local script_folder_name = determine_scriptFolder(OS)
     fileName = script_folder_name .. "\\" .. "to-language-phonemes.log"
-    log ("OS: " .. OS)
+    log("OS: " .. OS)
 
     local langCodes = { "IT" }
 
@@ -27,7 +27,7 @@ function main()
                 name = "cb1",
                 type = "ComboBox",
                 label = "Language",
-                choices = { "Italian"},
+                choices = { "Italian" },
                 default = 0
             }
         }
@@ -37,50 +37,118 @@ function main()
 
     if tostring(result.status) == "true" then
         local language = langCodes[result.answers.cb1 + 1]
-        log ("Language: " .. language)
+        log("Language: " .. language)
 
-        log("Start processing rules ")
+        log("Start processing rules")
+        sillRules = loadSillRules(script_folder_name, language, OS)
         ipaRules = loadIPARules(script_folder_name, language, OS)
-        dreamRules = loadDreamRules(script_folder_name, language, OS);
-        log("End processing rules ")
+        dreamRules = loadDreamRules(script_folder_name, language, OS)
+        log("End processing rules")
 
-        log("Start processing notes ")
+        log("Start processing notes")
         local selection = SV:getMainEditor():getSelection()
         local selectedNotes = selection:getSelectedNotes()
         local scope = SV:getMainEditor():getCurrentGroup()
         local group = scope:getTarget()
-        for i = 1, #selectedNotes do
-            local note = selectedNotes[i]
-            local lyric = note:getLyrics()
-            if lyric ~= " " then
-                local ipaLyric = convertToIPA(lyric)
-                local dreamMap = convertToDream(ipaLyric)
-                log("Lyric " .. lyric .. " --> IPA: ".. ipaLyric .. " --> Dream: " .. logElement(dreamMap))
+        local realNoteCounter = 1;
+        while realNoteCounter < #selectedNotes do
+            log("Process note at " .. realNoteCounter)
+            local originalNote = selectedNotes[realNoteCounter]
+            local lyric = originalNote:getLyrics()
+            local wordNotes = {}
 
-                if dreamMap then
-                    local durationPerSubNote = note:getDuration() / #dreamMap
-                    local pitchPerSubNote = note:getPitch()
-                    local startOnset = note:getOnset()
-                    local index = note:getIndexInParent()
-                    local n = 0
-                    group:removeNote(index)
-                    for _, entry in ipairs(dreamMap) do
-                        local phonemes = entry[1]
-                        local dreamLanguage = entry[2]
-                        if dreamLanguage == nil then
-                            log("Cannot find " .. phonemes .. " in .dic file. Set JAP as default")
-                            dreamLanguage = "JAP"
+            if lyric ~= " " and lyric ~= "-" and lyric ~= "+" then
+                table.insert(wordNotes, selectedNotes[realNoteCounter])
+                log("Process word \"" .. lyric .. "\" at " .. realNoteCounter)
+                local nextSillabesCounter = realNoteCounter
+                local nextLyric -- dichiarato qui per evitare ambiguità
+                repeat
+                    nextSillabesCounter = nextSillabesCounter + 1
+                    if nextSillabesCounter <= #selectedNotes then
+                        nextLyric = selectedNotes[nextSillabesCounter]:getLyrics()
+                        if nextLyric == "-" or nextLyric == "+" then
+                            table.insert(wordNotes, selectedNotes[nextSillabesCounter])
                         end
-                        local newNote = SV:create("Note")
-                        newNote:setPitch(pitchPerSubNote)
-                        newNote:setLanguageOverride(getLanguageOverride(language))
-                        newNote:setTimeRange(startOnset + durationPerSubNote*n, durationPerSubNote);
-                        newNote:setLyrics("." .. phonemes)
-                        group:addNote(newNote)
-                        n = n + 1;
+                    end
+                until not (nextSillabesCounter <= #selectedNotes and (nextLyric == "-" or nextLyric == "+"))
+
+                log("Current word notes number are " .. #wordNotes)
+
+                if #wordNotes == 1 then
+                    local ipaLyric = convertToIPA(lyric)
+                    local dreamMap = convertToDream(ipaLyric)
+                    log("Process single word \"" .. lyric .. "\" --> IPA: \"" .. ipaLyric .. "\" --> Dream: " .. logElement(dreamMap))
+
+                    if dreamMap then
+                        local durationPerSubNote = originalNote:getDuration() / #dreamMap
+                        local pitchPerSubNote = originalNote:getPitch()
+                        local startOnset = originalNote:getOnset()
+                        local index = originalNote:getIndexInParent()
+                        local n = 0
+                        group:removeNote(index) -- verifica se questo non altera inaspettatamente l'ordine delle note
+                        for _, entry in ipairs(dreamMap) do
+                            local phonemes = entry[1]
+                            local dreamLanguage = entry[2]
+                            if not dreamLanguage then
+                                log("Cannot find " .. phonemes .. " in .dic file. Set JAP as default")
+                                dreamLanguage = "JAP"
+                            end
+                            local newNote = SV:create("Note")
+                            newNote:setPitch(pitchPerSubNote)
+                            newNote:setLanguageOverride(getLanguageOverride(dreamLanguage))
+                            newNote:setTimeRange(startOnset + durationPerSubNote * n, durationPerSubNote)
+                            newNote:setLyrics("." .. phonemes)
+                            group:addNote(newNote)
+                            n = n + 1
+                        end
+                    end
+                else
+                    local sillabes = convertToSillabe(lyric)
+                    local wordNoteCounter = 1
+                    local newSillabeCounter = 1
+                    while newSillabeCounter <= #sillabes do
+                        local sillabe = sillabes[newSillabeCounter]
+                        local currentWordNote = wordNotes[wordNoteCounter]
+                        log("Check sillabe " .. newSillabeCounter .. " \"" .. sillabe .. "\" for lyric " .. wordNoteCounter .. " \"" .. currentWordNote:getLyrics() .. "\"")
+                        if currentWordNote:getLyrics() == "-" then
+                            wordNoteCounter = wordNoteCounter + 1
+                            realNoteCounter = realNoteCounter + 1
+                            log("Move sillabe " .. newSillabeCounter .. " \"" .. sillabe .. "\" to note " .. wordNoteCounter)
+                        else
+                            local ipaLyric = convertToIPA(sillabe)
+                            local dreamMap = convertToDream(ipaLyric)
+                            log("Process sillabe \"" .. sillabe .. "\" --> IPA: \"" .. ipaLyric .. "\" --> Dream: " .. logElement(dreamMap))
+                            if dreamMap then
+                                local durationPerSubNote = currentWordNote:getDuration() / #dreamMap
+                                local pitchPerSubNote = currentWordNote:getPitch()
+                                local startOnset = currentWordNote:getOnset()
+                                local index = currentWordNote:getIndexInParent()
+                                local subCounter = 0
+                                group:removeNote(index)
+                                for _, entry in ipairs(dreamMap) do
+                                    local phonemes = entry[1]
+                                    local dreamLanguage = entry[2]
+                                    if not dreamLanguage then
+                                        log("Cannot find " .. phonemes .. " in .dic file. Set JAP as default")
+                                        dreamLanguage = "JAP"
+                                    end
+                                    local newNote = SV:create("Note")
+                                    newNote:setPitch(pitchPerSubNote)
+                                    newNote:setLanguageOverride(getLanguageOverride(dreamLanguage))
+                                    newNote:setTimeRange(startOnset + durationPerSubNote * subCounter, durationPerSubNote)
+                                    newNote:setLyrics("." .. phonemes)
+                                    group:addNote(newNote)
+                                    subCounter = subCounter + 1
+                                end
+                            end
+                            wordNoteCounter = wordNoteCounter + 1
+                            realNoteCounter = realNoteCounter + 1
+                            newSillabeCounter = newSillabeCounter + 1
+                        end
                     end
                 end
             end
+            realNoteCounter = realNoteCounter + 1
         end
     else
         SV:showMessageBox("File path", "Exit")
@@ -119,14 +187,40 @@ function determine_scriptFolder(OS)
     end
 end
 
-
+function loadSillRules(folder, language, OS)
+    local sillRules = {}
+    local separator = OS == "Windows" and "\\" or "/"
+    local filePath = folder .. "languages" .. separator .. language .. "-syl.dic"
+    local file = io.open(filePath, "r")
+    log("Open Sillabe rule file " .. filePath)
+    if file then
+        for line in file:lines() do
+            if not line:find("^//") and line:match("%S") then
+                local ruleElement = {}
+                for word in line:gmatch("%S+") do
+                    table.insert(ruleElement, word)
+                end
+                local sillRule = {
+                    ruleType = ruleElement[1],
+                    pattern = ruleElement[2],
+                    count = tonumber(ruleElement[3])
+                }
+                table.insert(sillRules, sillRule)
+            end
+        end
+        file:close()
+    else
+        error("Error loading rules file: " .. tostring(filePath))
+    end
+    return sillRules
+end
 
 function loadIPARules(folder, language, OS)
     local ipaRules = {}
     local separator = OS == "Windows" and "\\" or "/"
     local filePath = folder .. "languages" .. separator .. language .. ".dic"
     local file = io.open(filePath, "r")
-    log ("Open IPA rule file " .. filePath)
+    log("Open IPA rule file " .. filePath)
 
     if file then
         local ruleType, ruleSymbol, excludedSymbol = "", "", ""
@@ -161,13 +255,13 @@ function loadIPARules(folder, language, OS)
     return ipaRules
 end
 
-function loadDreamRules(folder,language,OS)
+function loadDreamRules(folder, language, OS)
 
     local dreamRules = {}
     local separator = OS == "Windows" and "\\" or "/"
     local filePath = folder .. "languages" .. separator .. language .. "-dream.dic"
     local file = io.open(filePath, "r")
-    log ("Open dream rule file " .. filePath)
+    log("Open dream rule file " .. filePath)
 
     if file then
         local ruleType, ruleSymbol, excludedSymbol = "", "", ""
@@ -200,6 +294,33 @@ function loadDreamRules(folder,language,OS)
     return dreamRules
 end
 
+function convertToSillabe(word)
+    local sillabes = {}
+    local charCounter = 1
+
+    while charCounter <= #word do
+        local appliedRule = false
+        for _, sillRule in ipairs(sillRules) do
+            if word:match(sillRule.pattern) then
+                word, sillabes = updateWord(word, charCounter, sillRule.count, sillabes)
+                appliedRule = true
+                break
+            end
+        end
+
+        if not appliedRule then
+            table.insert(sillabes, word:sub(charCounter, charCounter))
+            charCounter = charCounter + 1
+        end
+    end
+    return sillabes
+end
+
+function updateWord(word, i, x, sillabes)
+    local extracted = word:sub(i, i + x - 1)
+    table.insert(sillabes, extracted)
+    return word:sub(i + x), sillabes
+end
 
 function convertToIPA(lyric)
     local lyricTrans = lyric;
@@ -218,7 +339,6 @@ function convertToIPA(lyric)
     return lyricTrans
 end
 
-
 function checkExcludedPattern(word, excludedPattern)
     if excludedPattern ~= nil then
         for _, pattern in ipairs(excludedPattern) do
@@ -229,7 +349,6 @@ function checkExcludedPattern(word, excludedPattern)
     end
     return false
 end
-
 
 function utf8_char_length(first_byte)
     if first_byte >= 0 and first_byte <= 127 then
@@ -270,7 +389,7 @@ function convertToDream(lyric)
                         result[#result][3] = result[#result][3] .. c
                     else
                         -- Aggiungiamo un nuovo elemento se la lingua è diversa
-                        table.insert(result, {convertedChar, language, c})
+                        table.insert(result, { convertedChar, language, c })
                     end
                     found = true
                 else
@@ -279,7 +398,7 @@ function convertToDream(lyric)
                         result[#result][1] = result[#result][1] .. " " .. c -- Aggiungi il carattere originale
                         result[#result][3] = result[#result][3] .. c
                     else
-                        table.insert(result, {c, nil, c}) -- Aggiungi il carattere originale con nil
+                        table.insert(result, { c, nil, c }) -- Aggiungi il carattere originale con nil
                     end
                     found = true
                 end
@@ -293,7 +412,7 @@ function convertToDream(lyric)
                 result[#result][1] = result[#result][1] .. c -- Uniamo carattere originale
                 result[#result][3] = result[#result][3] .. c
             else
-                table.insert(result, {c, nil, c}) -- Aggiungi il carattere originale con nil
+                table.insert(result, { c, nil, c }) -- Aggiungi il carattere originale con nil
             end
         end
 
@@ -385,9 +504,13 @@ end
 
 function folder_exists(foldername, OS)
     if OS ~= "Windows" then
-        if foldername:sub(-1) ~= "/" then foldername = foldername .. "/" end
+        if foldername:sub(-1) ~= "/" then
+            foldername = foldername .. "/"
+        end
     else
-        if foldername:sub(-1) ~= "\\" then foldername = foldername .. "\\" end
+        if foldername:sub(-1) ~= "\\" then
+            foldername = foldername .. "\\"
+        end
     end
     return exists(foldername)
 end
@@ -413,7 +536,9 @@ function file_is_writable(name)
 end
 
 function lines_from(file)
-    if not file_exists(file) then return {} end
+    if not file_exists(file) then
+        return {}
+    end
     local filelines = {}
     for line in io.lines(file) do
         filelines[#filelines + 1] = line
@@ -426,7 +551,7 @@ function split(inputstr, sep)
         sep = "%s" -- Se il separatore non è specificato, utilizza gli spazi
     end
     local t = {}
-    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+    for str in string.gmatch(inputstr, "([^" .. sep .. "]+)") do
         table.insert(t, str)
     end
     return t
