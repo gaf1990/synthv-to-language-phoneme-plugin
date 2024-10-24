@@ -57,8 +57,6 @@ function main()
                 local dreamMap = convertToDream(ipaLyric)
                 log("Lyric " .. lyric .. " --> IPA: ".. ipaLyric .. " --> Dream: " .. logElement(dreamMap))
 
-                local newNotes = {}
-
                 if dreamMap then
                     local durationPerSubNote = note:getDuration() / #dreamMap
                     local pitchPerSubNote = note:getPitch()
@@ -91,8 +89,6 @@ function main()
     end
     SV:finish()
 end
-
-
 
 function determine_OS()
     local hostinfo = SV:getHostInfo()
