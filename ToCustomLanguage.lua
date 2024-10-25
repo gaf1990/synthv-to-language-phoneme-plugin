@@ -40,15 +40,15 @@ function main()
         local group = scope:getTarget()
         local realNoteCounter = 1;
         while realNoteCounter <= #selectedNotes do
-            log("Process note at " .. realNoteCounter)
             local originalNote = selectedNotes[realNoteCounter]
             local lyric = originalNote:getLyrics()
             lyric = string.lower(lyric)
             local wordNotes = {}
-
-            if lyric ~= " " and lyric ~= "-" and lyric ~= "+" and lyric ~= "br" and lyric ~= "cl" then
+            if lyric == " " or lyric == "-" or lyric == "+" or lyric == "br" or lyric == "cl" then
+                log(realNoteCounter .. ": Skip dreamtonics constant \"" .. lyric .. "\"")
+            else
                 table.insert(wordNotes, selectedNotes[realNoteCounter])
-                log("Process word \"" .. lyric .. "\" at " .. realNoteCounter)
+                log(realNoteCounter .. ": Process word \"" .. lyric.. "\"")
                 local nextSillabesCounter = realNoteCounter
                 local nextLyric -- dichiarato qui per evitare ambiguità
                 repeat
@@ -61,12 +61,12 @@ function main()
                     end
                 until not (nextSillabesCounter <= #selectedNotes and (nextLyric == "-" or nextLyric == "+"))
 
-                log("Current word notes number are " .. #wordNotes)
+                 log(realNoteCounter .. ": Current word notes number are " .. #wordNotes)
 
                 if #wordNotes == 1 then
                     local ipaLyric = convertToIPA(ipaRules,lyric)
                     local dreamMap = convertToDream(dreamRules,ipaLyric,preferredLanguage)
-                    log("Process single word \"" .. lyric .. "\" --> IPA: \"" .. ipaLyric .. "\" --> Dream: " .. logElement(dreamMap))
+                      log(realNoteCounter ..": Process single word \"" .. lyric .. "\" --> IPA: \"" .. ipaLyric .. "\" --> Dream: " .. logElement(dreamMap))
 
                     if dreamMap then
                         local durationPerSubNote = originalNote:getDuration() / #dreamMap
@@ -79,7 +79,7 @@ function main()
                             local phonemes = entry[1]
                             local dreamLanguage = entry[2]
                             if not dreamLanguage then
-                                log("Cannot find " .. phonemes .. " in .dic file. Set JAP as default")
+                                  log(realNoteCounter ..": Cannot find " .. phonemes .. " in .dic file. Set JAP as default")
                                 dreamLanguage = "JAP"
                             end
                             local newNote = SV:create("Note")
@@ -91,6 +91,7 @@ function main()
                             n = n + 1
                         end
                     end
+                    realNoteCounter = realNoteCounter + 1
                 else
                     local sillabes = convertToSillabe(sillRules,lyric)
                     local wordNoteCounter = 1
@@ -98,15 +99,15 @@ function main()
                     while newSillabeCounter <= #sillabes do
                         local sillabe = sillabes[newSillabeCounter]
                         local currentWordNote = wordNotes[wordNoteCounter]
-                        log("Check sillabe " .. newSillabeCounter .. " \"" .. sillabe .. "\" for lyric " .. wordNoteCounter .. " \"" .. currentWordNote:getLyrics() .. "\"")
+                        log(realNoteCounter ..": Check sillabe " .. newSillabeCounter .. " \"" .. sillabe .. "\" for lyric " .. wordNoteCounter .. " \"" .. currentWordNote:getLyrics() .. "\"")
                         if currentWordNote:getLyrics() == "-" then
                             wordNoteCounter = wordNoteCounter + 1
                             realNoteCounter = realNoteCounter + 1
-                            log("Move sillabe " .. newSillabeCounter .. " \"" .. sillabe .. "\" to note " .. wordNoteCounter)
+                            log(realNoteCounter ..": Move sillabe " .. newSillabeCounter .. " \"" .. sillabe .. "\" to note " .. wordNoteCounter)
                         else
                             local ipaLyric = convertToIPA(ipaRules,sillabe)
                             local dreamMap = convertToDream(dreamRules,ipaLyric,preferredLanguage)
-                            log("Process sillabe \"" .. sillabe .. "\" --> IPA: \"" .. ipaLyric .. "\" --> Dream: " .. logElement(dreamMap))
+                            log(realNoteCounter ..": Process sillabe \"" .. sillabe .. "\" --> IPA: \"" .. ipaLyric .. "\" --> Dream: " .. logElement(dreamMap))
                             if dreamMap then
                                 local durationPerSubNote = currentWordNote:getDuration() / #dreamMap
                                 local pitchPerSubNote = currentWordNote:getPitch()
@@ -118,7 +119,7 @@ function main()
                                     local phonemes = entry[1]
                                     local dreamLanguage = entry[2]
                                     if not dreamLanguage then
-                                        log("Cannot find " .. phonemes .. " in .dic file. Set JAP as default")
+                                        log(realNoteCounter ..": Cannot find " .. phonemes .. " in .dic file. Set JAP as default")
                                         dreamLanguage = "JAP"
                                     end
                                     local newNote = SV:create("Note")
@@ -137,7 +138,6 @@ function main()
                     end
                 end
             end
-            realNoteCounter = realNoteCounter + 1
         end
     else
         SV:showMessageBox("File path", "Exit")
