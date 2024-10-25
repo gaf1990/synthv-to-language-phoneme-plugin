@@ -104,8 +104,8 @@ function main()
                             realNoteCounter = realNoteCounter + 1
                             log("Move sillabe " .. newSillabeCounter .. " \"" .. sillabe .. "\" to note " .. wordNoteCounter)
                         else
-                            local ipaLyric = convertToIPA(sillabe)
-                            local dreamMap = convertToDream(ipaLyric)
+                            local ipaLyric = convertToIPA(sillRules,sillabe)
+                            local dreamMap = convertToDream(dreamRules,ipaLyric,preferredLanguage)
                             log("Process sillabe \"" .. sillabe .. "\" --> IPA: \"" .. ipaLyric .. "\" --> Dream: " .. logElement(dreamMap))
                             if dreamMap then
                                 local durationPerSubNote = currentWordNote:getDuration() / #dreamMap
