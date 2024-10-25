@@ -16,54 +16,21 @@ function main()
     fileName = script_folder_name .. "\\" .. "to-language-phonemes.log"
     log("OS: " .. OS)
 
-    local langCodes = { "IT" }
-
-    local myForm = {
-        title = "Choose Language",
-        message = "Please choose language",
-        buttons = "OkCancel",
-        widgets = {
-            {
-                name = "cb1",
-                type = "ComboBox",
-                label = "Language",
-                choices = { "Italian" },
-                default = 0
-            }
-        }
-    }
-
-    local result = SV:showCustomDialog(myForm)
-
+    local result = showLanguageDialog()
     if tostring(result.status) == "true" then
+        local langCodes = { "IT" }
         local language = langCodes[result.answers.cb1 + 1]
         log("Language: " .. language)
 
         local preferredLanguageCodes =  { 'AUT','CAN','MAN','ING','GIA','SPA'}
-        local preferredLanguageForm = {
-            title = "Choose Preferred Dreamtonics Language",
-            message = "Please choose preferred dreamtonics language to use as target",
-            buttons = "OkCancel",
-            widgets = {
-                {
-                    name = "cb2",
-                    type = "ComboBox",
-                    label = "Language",
-                    choices = { "Automatic", "Cantonese","Mandarine","English","Japanese","Spanish" },
-                    default = 0
-                }
-            }
-        }
-
-        local preferredLanguageResult = SV:showCustomDialog(preferredLanguageForm)
-        preferredLanguage = preferredLanguageCodes[preferredLanguageResult.answers.cb2 + 1]
-
+        local preferredLanguageResult = showPreferredLanguageDialog()
+        local preferredLanguage = preferredLanguageCodes[preferredLanguageResult.answers.cb2 + 1]
         log("Chosen preferred dreamtonics language is" .. preferredLanguage)
 
         log("Start processing rules")
-        sillRules = loadSillRules(script_folder_name, language, OS)
-        ipaRules = loadIPARules(script_folder_name, language, OS)
-        dreamRules = loadDreamRules(script_folder_name, language, OS)
+        local sillRules = loadSillRules(script_folder_name, language, OS)
+        local ipaRules = loadIPARules(script_folder_name, language, OS)
+        local dreamRules = loadDreamRules(script_folder_name, language, OS)
         log("End processing rules")
 
         log("Start processing notes")
@@ -97,8 +64,8 @@ function main()
                 log("Current word notes number are " .. #wordNotes)
 
                 if #wordNotes == 1 then
-                    local ipaLyric = convertToIPA(lyric)
-                    local dreamMap = convertToDream(ipaLyric)
+                    local ipaLyric = convertToIPA(ipaRules,lyric)
+                    local dreamMap = convertToDream(dreamRules,ipaLyric,preferredLanguage)
                     log("Process single word \"" .. lyric .. "\" --> IPA: \"" .. ipaLyric .. "\" --> Dream: " .. logElement(dreamMap))
 
                     if dreamMap then
@@ -125,7 +92,7 @@ function main()
                         end
                     end
                 else
-                    local sillabes = convertToSillabe(lyric)
+                    local sillabes = convertToSillabe(sillRules,lyric)
                     local wordNoteCounter = 1
                     local newSillabeCounter = 1
                     while newSillabeCounter <= #sillabes do
@@ -207,6 +174,42 @@ function determine_scriptFolder(OS)
             return SV:showInputBox("Script path", "Cannot find user profile. Please insert the full path here:", "Script path")
         end
     end
+end
+
+function showLanguageDialog()
+    local myForm = {
+        title = "Choose Language",
+        message = "Please choose language",
+        buttons = "OkCancel",
+        widgets = {
+            {
+                name = "cb1",
+                type = "ComboBox",
+                label = "Language",
+                choices = { "Italian" },
+                default = 0
+            }
+        }
+    }
+    return SV:showCustomDialog(myForm)
+end
+
+function showPreferredLanguageDialog()
+    local preferredLanguageForm = {
+        title = "Choose Preferred Dreamtonics Language",
+        message = "Please choose preferred dreamtonics language to use as target",
+        buttons = "OkCancel",
+        widgets = {
+            {
+                name = "cb2",
+                type = "ComboBox",
+                label = "Language",
+                choices = { "Automatic", "Cantonese","Mandarine","English","Japanese","Spanish" },
+                default = 0
+            }
+        }
+    }
+    return SV:showCustomDialog(preferredLanguageForm)
 end
 
 function loadSillRules(folder, language, OS)
@@ -319,7 +322,7 @@ function loadDreamRules(folder, language, OS)
     return dreamRules
 end
 
-function convertToSillabe(word)
+function convertToSillabe(sillRules,word)
     local sillabes = {}
     local charCounter = 1
 
@@ -347,7 +350,7 @@ function updateWord(word, i, x, sillabes)
     return word:sub(i + x), sillabes
 end
 
-function convertToIPA(lyric)
+function convertToIPA(ipaRules,lyric)
     local lyricTrans = lyric;
     for _, ipaRule in ipairs(ipaRules) do
         if string.match(lyric, ipaRule.sourcePattern) then
@@ -390,7 +393,7 @@ function utf8_char_length(first_byte)
 end
 
 -- Funzione per convertire la stringa in DREAM
-function convertToDream(lyric)
+function convertToDream(dreamRules,lyric,preferredLanguage)
     local result = {}
     local i = 1
 
