@@ -1,8 +1,8 @@
-SCRIPT_TITLE = "To Language Phonemes"
+SCRIPT_TITLE = "To Custom Language"
 
 function getClientInfo()
     return {
-        name = "To Language Phonemes",
+        name = "To Custom Language",
         category = "Phoneme Converters",
         author = "Giuseppe Andrea Ferraro",
         versionNumber = 1,
