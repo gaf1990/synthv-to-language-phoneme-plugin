@@ -498,10 +498,10 @@ function getLanguageOverride(language)
     if language == "SPA" then
         return "spanish"
     end
-    if language == "JAP" then
+    if language == "GIA" then
         return "japanese"
     end
-    if language == "ENG" then
+    if language == "ING" then
         return "english"
     end
     if language == "MAN" then
