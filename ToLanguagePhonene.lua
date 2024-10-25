@@ -6,7 +6,7 @@ function getClientInfo()
         category = "Phoneme Converters",
         author = "Giuseppe Andrea Ferraro",
         versionNumber = 1,
-        minEditorVersion = 1
+        minEditorVersion = 2
     }
 end
 
@@ -39,6 +39,27 @@ function main()
         local language = langCodes[result.answers.cb1 + 1]
         log("Language: " .. language)
 
+        local preferredLanguageCodes =  { 'AUT','CAN','MAN','ENG','JAP','SPA'}
+        local preferredLanguageForm = {
+            title = "Choose Preferred Dreamtonics Language",
+            message = "Please choose preferred dreamtonics language to use as target",
+            buttons = "OkCancel",
+            widgets = {
+                {
+                    name = "cb2",
+                    type = "ComboBox",
+                    label = "Language",
+                    choices = { "Automatic", "Cantonese","Mandarine","English","Japanese","Spanish" },
+                    default = 0
+                }
+            }
+        }
+
+        local preferredLanguageResult = SV:showCustomDialog(preferredLanguageForm)
+        preferredLanguage = preferredLanguageCodes[preferredLanguageResult.answers.cb2 + 1]
+
+        log("Chosen preferred dreamtonics language is" .. preferredLanguage)
+
         log("Start processing rules")
         sillRules = loadSillRules(script_folder_name, language, OS)
         ipaRules = loadIPARules(script_folder_name, language, OS)
@@ -51,14 +72,14 @@ function main()
         local scope = SV:getMainEditor():getCurrentGroup()
         local group = scope:getTarget()
         local realNoteCounter = 1;
-        while realNoteCounter < #selectedNotes do
+        while realNoteCounter <= #selectedNotes do
             log("Process note at " .. realNoteCounter)
             local originalNote = selectedNotes[realNoteCounter]
             local lyric = originalNote:getLyrics()
             lyric = string.lower(lyric)
             local wordNotes = {}
 
-            if lyric ~= " " and lyric ~= "-" and lyric ~= "+" then
+            if lyric ~= " " and lyric ~= "-" and lyric ~= "+" and lyric ~= "br" and lyric ~= "cl" then
                 table.insert(wordNotes, selectedNotes[realNoteCounter])
                 log("Process word \"" .. lyric .. "\" at " .. realNoteCounter)
                 local nextSillabesCounter = realNoteCounter
@@ -380,8 +401,20 @@ function convertToDream(lyric)
         for _, dr in ipairs(dreamRules) do
             local original = dr.original
             if c == original then
-                local language = getLanguage(dr.languages)
-                local convertedChar = dr.languages[language]
+                local language = ""
+                local convertedChar = ""
+                if preferredLanguage == "AUT" then
+                    language = getLanguage(dr.languages)
+                    convertedChar = dr.languages[language]
+                else
+                    language = preferredLanguage
+                    convertedChar = dr.languages[preferredLanguage]
+                    if convertedChar == nil then
+                        log("Char " .. c .. " for chosen language " .. preferredLanguage .. " doesn't exit")
+                        language = getLanguage(dr.languages)
+                        convertedChar = dr.languages[preferredLanguage]
+                    end
+                end
 
                 if convertedChar then
                     if #result > 0 and result[#result][2] == language then
@@ -394,6 +427,7 @@ function convertToDream(lyric)
                     end
                     found = true
                 else
+                    log("Char " .. c .. " is not mapped. Use original one")
                     -- Se non c'è una conversione, possiamo decidere di non aggiungere nulla
                     if #result > 0 and result[#result][2] == nil then
                         result[#result][1] = result[#result][1] .. " " .. c -- Aggiungi il carattere originale
