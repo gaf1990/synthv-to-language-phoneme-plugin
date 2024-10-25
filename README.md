@@ -95,20 +95,19 @@ In this case, the phoneme `ʧ` can be converted:
 The script should be used by:
 * Selecting a group of notes
 
-![img_1.png](resources/img_1.png)
+![img_1.png](resources/selection.png)
 
-* Choosing the conversion language (currently only Italian is supported)
+* Choosing the source language (currently only Italian is supported)
 
-![img_2.png](resources/img_2.png)
+![img_2.png](resources/source_language.png)
 
-As you can see, the script will transform this group of notes:
+* Choosing the target preferred language (default Automatic)
 
-![img.png](resources/img.png)
+![preferred.png](resources/preferred.png)
 
-into this:
+The result will be this one:
 
-![img_3.png](resources/img_3.png)
-
+![img_3.png](resources/result.png)
 
 Follows an example log
 
