@@ -39,7 +39,7 @@ function main()
         local language = langCodes[result.answers.cb1 + 1]
         log("Language: " .. language)
 
-        local preferredLanguageCodes =  { 'AUT','CAN','MAN','ENG','JAP','SPA'}
+        local preferredLanguageCodes =  { 'AUT','CAN','MAN','ING','GIA','SPA'}
         local preferredLanguageForm = {
             title = "Choose Preferred Dreamtonics Language",
             message = "Please choose preferred dreamtonics language to use as target",
@@ -227,6 +227,7 @@ function loadSillRules(folder, language, OS)
                     pattern = ruleElement[2],
                     count = tonumber(ruleElement[3])
                 }
+                log("Load sillabation rule " .. logElement(sillRule))
                 table.insert(sillRules, sillRule)
             end
         end
@@ -267,6 +268,7 @@ function loadIPARules(folder, language, OS)
                     excludedSymbol = excludedSymbol,
                     excludedPattern = ruleElements[3] and { ruleElements[3]:match("[^|]+") } or {}
                 }
+                log("Load ipa rule " .. logElement(ipaRule))
                 table.insert(ipaRules, ipaRule)
             end
         end
@@ -310,6 +312,7 @@ function loadDreamRules(folder, language, OS)
             end
 
             dreamRule.languages = languageMaps
+            log("Load dreamRule rule " .. logElement(dreamRule))
             table.insert(dreamRules, dreamRule)
         end
     end
@@ -410,9 +413,11 @@ function convertToDream(lyric)
                     language = preferredLanguage
                     convertedChar = dr.languages[preferredLanguage]
                     if convertedChar == nil then
-                        log("Char " .. c .. " for chosen language " .. preferredLanguage .. " doesn't exit")
                         language = getLanguage(dr.languages)
-                        convertedChar = dr.languages[preferredLanguage]
+                        if language then
+                            log("Char " .. c .. " for chosen language " .. preferredLanguage .. " doesn't exist. Use language " .. language)
+                            convertedChar = dr.languages[language]
+                        end
                     end
                 end
 
