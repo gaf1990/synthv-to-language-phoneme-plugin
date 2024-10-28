@@ -3,7 +3,7 @@ SCRIPT_TITLE = "To Custom Language"
 function getClientInfo()
     return {
         name = "To Custom Language",
-        category = "Phoneme Converters",
+        category = "GAF Utilities",
         author = "Giuseppe Andrea Ferraro",
         versionNumber = 1,
         minEditorVersion = 2
