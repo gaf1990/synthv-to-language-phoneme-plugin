@@ -9,6 +9,7 @@ VVVC ^[aeɛioɔuèéòäùʊ][aeɛioɔuèéòäùʊ][aeɛioɔuèéòäùʊ][bʧc
 VVVV ^[aeɛioɔuèéòäùʊ][aeɛioɔuèéòäùʊ][aeɛioɔuèéòäùʊ][aeɛioɔuèéòäùʊ](.*) 4
 CCVS ^[bʧcdfhjkʤgʎlmnɲŋpqrsʃtvwʊxyzʦʣ][bʧcdfhjkʤgʎlmnɲŋpqrsʃtvwʊxyzʦʣ][aeɛioɔuèéòäùʊ](nc|ns|nt|nʤ|nʧ|nʦ|nk|nd|nq|ŋs|ŋt|ŋk|ŋd|ŋg|ŋq|ŋʧ|rs|rt|rk|rd|bb|ʧʧ|dd|ff|kk|ʤʤ|ll|mm|nn|pp|rr|ss|tt|zz)(.*) 4
 CCVNS ^[bʧcdfhjkʤgʎlmnɲŋpqrsʃtvwʊxyzʦʣ][bʧcdfhjkʤgʎlmnɲŋpqrsʃtvwʊxyzʦʣ][aeɛioɔuèéòäùʊ](tr|gr|rj|s|z)(.*) 3
+CCVCC ^[bʧcdfhjkʤgʎlmnɲŋpqrsʃtvwʊxyzʦʣ][bʧcdfhjkʤgʎlmnɲŋpqrsʃtvwʊxyzʦʣ][aeɛioɔuèéòäùʊ][bʧcdfhjkʤgʎlmnɲŋpqrsʃtvwʊxyzʦʣ][bʧcdfhjkʤgʎlmnɲŋpqrsʃtvwʊxyzʦʣ](.*) 4
 CCVC ^[bʧcdfhjkʤgʎlmnɲŋpqrsʃtvwʊxyzʦʣ][bʧcdfhjkʤgʎlmnɲŋpqrsʃtvwʊxyzʦʣ][aeɛioɔuèéòäùʊ][bʧcdfhjkʤgʎlmnɲŋpqrsʃtvwʊxyzʦʣ](.*) 3
 CCVV ^[bʧcdfhjkʤgʎlmnɲŋpqrsʃtvwʊxyzʦʣ][bʧcdfhjkʤgʎlmnɲŋpqrsʃtvwʊxyzʦʣ][aeɛioɔuèéòäùʊ][aeɛioɔuèéòäùʊ](.*) 4
 CVNS ^[bʧcdfhjkʤgʎlmnɲŋpqrsʃtvwʊxyzʦʣ][aeɛioɔuèéòäùʊ](tr|gr|rj|zt|zk|zt|zf|zg)(.*) 2
