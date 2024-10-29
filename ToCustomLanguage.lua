@@ -61,12 +61,12 @@ function main()
                     end
                 until not (nextSillabesCounter <= #selectedNotes and (nextLyric == "-" or nextLyric == "+"))
 
-                 log(realNoteCounter .. ": Current word notes number are " .. #wordNotes)
+                log(realNoteCounter .. ": Current word notes number are " .. #wordNotes)
 
                 if #wordNotes == 1 then
                     local ipaLyric = convertToIPA(ipaRules,lyric)
                     local dreamMap = convertToDream(dreamRules,ipaLyric,preferredLanguage)
-                      log(realNoteCounter ..": Process single word \"" .. lyric .. "\" --> IPA: \"" .. ipaLyric .. "\" --> Dream: " .. logElement(dreamMap))
+                    log(realNoteCounter ..": Process single word \"" .. lyric .. "\" --> IPA: \"" .. ipaLyric .. "\" --> Dream: " .. logElement(dreamMap))
 
                     if dreamMap then
                         local durationPerSubNote = originalNote:getDuration() / #dreamMap
@@ -79,7 +79,7 @@ function main()
                             local phonemes = entry[1]
                             local dreamLanguage = entry[2]
                             if not dreamLanguage then
-                                  log(realNoteCounter ..": Cannot find " .. phonemes .. " in .dic file. Set JAP as default")
+                                log(realNoteCounter ..": Cannot find " .. phonemes .. " in .dic file. Set JAP as default")
                                 dreamLanguage = "JAP"
                             end
                             local newNote = SV:create("Note")
@@ -491,7 +491,7 @@ function getLanguage(languages)
         return "MAN"
     end
 
-    return nil
+    return "GIA"
 end
 
 function getLanguageOverride(language)
